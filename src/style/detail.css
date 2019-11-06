@@ -1,0 +1,113 @@
+.detail {
+  width: 400px;
+  height: 700px;
+}
+.detail header {
+  height: 50px;
+  background-color: #23b8ff;
+  position: relative;
+}
+.detail header button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  background-color: #23b8ff;
+  border: none;
+}
+.detail header p {
+  font-size: 24px;
+  text-align: center;
+  line-height: 50px;
+}
+.detail main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.detail main img {
+  width: 200px;
+  height: 300px;
+}
+.detail main .intro {
+  width: 380px;
+  height: 100px;
+  padding: 10px;
+}
+.detail main .intro p:first-child,
+.detail main .casts p:first-child{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.detail main .intro p {
+  height: 20px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.detail main .intro p span {
+  vertical-align: middle;
+}
+.detail main .intro p .genres{
+  background-color: rgb(255, 0, 0);
+  color: #fff;
+  margin-left: 5px;
+  font-size: 8px;
+}
+.detail main .casts {
+  width: 380px;
+  height: 210px;
+  padding: 10px;
+  overflow: hidden;
+}
+.image {
+  display: flex;
+  justify-content: space-between;
+}
+.image .castsImg {
+  width: 120px;
+  height: 180px;
+}
+
+.detail .primary {
+  margin: 10px;
+  width: 380px;
+  height: 200px;
+  display: flex;
+  justify-content: flex-start;
+}
+.detail .primary img {
+  width: 150px;
+  height: 200px;
+  margin-right: 10px;
+  flex-shrink: 0
+}
+.detail .primary div {
+  margin: 10px;
+  overflow: hidden;
+}
+.detail .primary div .tags {
+  background-color: hsla(56, 98%, 52%, 0.884);
+  color: #fff;
+  margin-right: 5px;
+  font-size: 14px;
+}
+.detail main .catalog,
+.detail main .summary{
+  margin: 10px;
+  width: 380px;
+  height: 195px;
+  overflow: hidden;
+}
+.detail main .catalog p:first-child,
+.detail main .summary p:first-child{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.detail main .catalog p:last-child,
+.detail main .summary p:last-child {
+  text-indent: 2em;
+}

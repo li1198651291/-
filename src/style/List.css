@@ -1,0 +1,34 @@
+li {
+  list-style: none;
+  border: 1px solid #ccc;
+  height: 150px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  overflow: hidden;
+}
+li img {
+  width: 100px;
+  height: 130px;
+}
+li div {
+  width: 220px;
+  height: 130px;
+  line-height: 25px;
+}
+li div .title {
+  font-size: 18px;
+  font-weight: bold;
+}
+li div .genres span{
+  background-color: rgb(255, 0, 0);
+  color: #fff;
+  margin-right: 5px;
+  font-size: 14px;
+}
+li div .casts span{
+  font-size: 14px;
+  color: #999;
+  margin-right: 5px;
+}
