@@ -4,38 +4,84 @@ import MovieList from './MovieList';
 import BookList from './BookList';
 import MusicList from './MusicList';
 import Footer from './Footer';
+import PropTypes from 'prop-types'
 
 export default class MainList extends Component {
   constructor() {
     super()
-    this.state = {
-      data: ''
+    this.myRef = React.createRef()
+  }
+  recordPos() {
+    this.context.recordPos(this.myRef.current.scrollTop)
+  }
+  static contextTypes = {
+    movie: PropTypes.array,
+    book: PropTypes.array,
+    music: PropTypes.array,
+    searchData: PropTypes.array,
+    position: PropTypes.number,
+    count: PropTypes.number,
+    recordPos: PropTypes.func,
+    getData: PropTypes.func,
+    searchValue: PropTypes.string,
+    getCount: PropTypes.func,
+  }
+  componentDidMount() {
+    let kind = this.props.match.path;
+    var ul = this.myRef.current
+    ul.scrollTop = this.context.position;
+    
+    this.myRef.current.onscroll = () => {
+      if(this.context.searchValue === '') {
+        return
+      }
+      if (ul.scrollHeight - ul.scrollTop - ul.clientHeight === 0) {
+        var count = this.context.count + 20
+        this.context.recordPos(ul.scrollTop)
+        this.context.getCount(count)
+        this.context.getData(kind)
+        this.myRef.current.scrollTop = this.context.position;
+      }
     }
   }
-  submit(data) {
-    this.setState({
-      data: data
-    })
+  componentDidUpdate() {
+    this.myRef.current.scrollTop = this.context.position;
   }
   render() {
-    let data = this.state.data;
-    let kind = this.props.routerProps.match.path;
-    let initData = this.props.initData;
-    let renderData = data ? data : initData;
-    console.log(this.state.data)
+    let kind = this.props.match.path;
+    var renderDate;
+    let movie = this.context.movie;
+    let book = this.context.book;
+    let music = this.context.music;
+    if (this.context.searchData.length !== 0) {
+      renderDate = this.context.searchData
+    } else {
+      switch (kind) {
+        case '/movie':
+          renderDate = movie;
+          break;
+        case '/music':
+          renderDate = music;
+          break;
+        case '/book':
+          renderDate = book;
+          break;
+        default:
+      }
+    }
     return (
       <div>
-        <Search kind={kind} submit={(data) => this.submit(data)}></Search>
-        <ul>
+        <Search kind={kind}></Search>
+        <ul ref={this.myRef}>
           {
-            renderData ? renderData.map((item, index) => {
+            renderDate ? renderDate.map((item, index) => {
               switch (kind) {
                 case '/movie':
-                  return <MovieList dataItem={item} key={index}></MovieList>
+                  return <MovieList dataItem={item} key={index} recordPos={() => this.recordPos()}></MovieList>
                 case '/music':
-                  return <MusicList dataItem={item} key={index}></MusicList>
+                  return <MusicList dataItem={item} key={index} recordPos={() => this.recordPos()}></MusicList>
                 case '/book':
-                  return <BookList dataItem={item} key={index}></BookList>
+                  return <BookList dataItem={item} key={index} recordPos={() => this.recordPos()}></BookList>
                 default:
                   return ''
               }

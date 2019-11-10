@@ -6,60 +6,106 @@ import MovieDetail from './component/MovieDetail';
 import BookDetail from './component/BookDetail';
 import MusicDetail from './component/MusicDetail';
 import MainList from './component/MainList';
-import Search from './component/Search';
-import BookList from './component/BookList';
-import Footer from './component/Footer';
-
+import PropTypes from 'prop-types';
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      movie: '',
-      book: '',
-      music: ''
+      movie: [],
+      book: [],
+      music: [],
+      searchData: [],
+      searchValue: '',
+      count: 20,
+      position: 0,
     }
   }
   componentDidMount() {
     get('https://api.douban.com/v2/movie/top250?apikey=0b2bdeda43b5688921839c8ecb20399b')
       .then(data => this.setState({ movie: data.subjects }))
-    get('https://api.douban.com/v2/music/search?q=b&count=20')
+    get('https://api.douban.com/v2/music/search?q=b&count=20&apikey=0b2bdeda43b5688921839c8ecb20399b')
       .then(data => this.setState({ music: data.musics }))
     get('https://api.douban.com/v2/book/search?q=a&count=20&apikey=0b2bdeda43b5688921839c8ecb20399b')
       .then(data => this.setState({ book: data.books }))
-      console.log(1)
   }
-  bookSubmit(data) {
+  getData(kind) {
+    if (kind === '/book') {
+      get(`https://api.douban.com/v2/book/search?q=%25${this.state.searchValue}%25&count=${this.state.count}&apikey=0b2bdeda43b5688921839c8ecb20399b`)
+        .then(data => this.submit(data.books))
+    }
+    if (kind === '/music') {
+      get(`https://api.douban.com/v2/music/search?q=%25${this.state.searchValue}%25&count=${this.state.count}&apikey=0b2bdeda43b5688921839c8ecb20399b`)
+        .then(data => this.submit(data.musics))
+    }
+    if (kind === '/movie') {
+      get(`https://api.douban.com/v2/movie/search?q=%25${this.state.searchValue}%25&count=${this.state.count}&apikey=0b2bdeda43b5688921839c8ecb20399b`)
+        .then(data => this.submit(data.subjects))
+    }
+    // this.recordPos(0)
+  }
+  getValue(value) {
     this.setState({
-      book: data
+      searchValue: value
     })
   }
+  submit(data) {
+    this.setState({
+      searchData: data
+    })
+  }
+  recordPos(data) {
+    this.setState({
+      position: data
+    })
+  }
+  getCount(count) {
+    this.setState({
+      count: count
+    })
+  }
+  static childContextTypes = {
+    movie: PropTypes.array,
+    book: PropTypes.array,
+    music: PropTypes.array,
+    searchData: PropTypes.array,
+    searchValue: PropTypes.string,
+    position: PropTypes.number,
+    count: PropTypes.number,
+    submit: PropTypes.func,
+    recordPos: PropTypes.func,
+    getValue: PropTypes.func,
+    getCount: PropTypes.func,
+    getData: PropTypes.func
+  }
+  getChildContext() {
+    return {
+      movie: this.state.movie,
+      book: this.state.book,
+      music: this.state.music,
+      searchData: this.state.searchData,
+      position: this.state.position,
+      searchValue: this.state.searchValue,
+      count: this.state.count,
+      submit: (data) => this.submit(data),
+      recordPos: (data) => this.recordPos(data),
+      getData: (count) => this.getData(count),
+      getValue: (value) => this.getValue(value),
+      getCount: (count) => this.getCount(count)
+    }
+  }
   render() {
-    let { movie, book, music} = this.state;
-    console.log(this.state.book)
+    console.log(this.state.searchData)
     return (
       <Router>
         <div className="app">
           <Route path='/' exact render={() => (
             <Link to='/movie' className='start'>点击开始</Link>
           )}></Route>
-          <Route path='/movie' exact render={(routerProps) => <MainList routerProps={routerProps} initData={movie}></MainList>}></Route>
-          <Route path='/music' exact render={(routerProps) => <MainList routerProps={routerProps} initData={music}></MainList>}></Route>
-          {/* <Route path='/book' exact render={(routerProps) => <MainList routerProps={routerProps} initData={book}></MainList>}></Route> */}
-          <Route path='/book' exact render={() => (
-            <div>
-            <Search kind='/book' submit={(data) => this.bookSubmit(data)}></Search>
-            <ul>
-              {
-                book ? book.map((item, index) => (
-                  <BookList dataItem={item} key={index}></BookList>
-                )) : 'loading'
-              }
-            </ul>
-            <Footer kind='/book'></Footer>
-          </div>
-          )}></Route>
-          <Route path='/movie/:title' exact component={MovieDetail}></Route>
+          <Route path='/movie' exact component={MainList}></Route>
+          <Route path='/music' exact component={MainList}></Route>
+          <Route path='/book' exact component={MainList}></Route>
+          <Route path='/movie/:title' component={MovieDetail}></Route>
           <Route path='/book/:title' component={BookDetail}></Route>
           <Route path='/music/:title' component={MusicDetail}></Route>
         </div>

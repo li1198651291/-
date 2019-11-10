@@ -6,6 +6,7 @@
   height: 50px;
   background-color: #23b8ff;
   position: relative;
+  overflow: hidden;
 }
 .detail header button {
   position: absolute;
@@ -18,7 +19,7 @@
   border: none;
 }
 .detail header p {
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
   line-height: 50px;
 }

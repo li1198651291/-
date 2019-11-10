@@ -11,7 +11,7 @@ class BookList extends Component {
       state: dataItem
     }
     return (
-      <Link to={path}>
+      <Link to={path} onClick={this.props.recordPos}>
         <li>
           <img src={dataItem.image} alt=""></img>
           <div>
