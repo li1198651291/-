@@ -4,7 +4,7 @@ import MovieList from './MovieList';
 import BookList from './BookList';
 import MusicList from './MusicList';
 import Footer from './Footer';
-import PropTypes from 'prop-types'
+import ThemeContext from './ThemeContext';
 
 export default class MainList extends Component {
   constructor() {
@@ -14,18 +14,7 @@ export default class MainList extends Component {
   recordPos() {
     this.context.recordPos(this.myRef.current.scrollTop)
   }
-  static contextTypes = {
-    movie: PropTypes.array,
-    book: PropTypes.array,
-    music: PropTypes.array,
-    searchData: PropTypes.array,
-    position: PropTypes.number,
-    count: PropTypes.number,
-    recordPos: PropTypes.func,
-    getData: PropTypes.func,
-    searchValue: PropTypes.string,
-    getCount: PropTypes.func,
-  }
+  static contextType = ThemeContext
   componentDidMount() {
     let kind = this.props.match.path;
     var ul = this.myRef.current

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../style/Search.css';
 import searchIcon from '../image/搜索.png';
-import PropTypes from 'prop-types'
+import ThemeContext from './ThemeContext';
 
 
 export default class Search extends Component {
@@ -15,13 +15,8 @@ export default class Search extends Component {
       return '唱片名、表演者、条码、ISBN';
     }
   }
-  static contextTypes = {
-    getData: PropTypes.func,
-    getValue: PropTypes.func,
-    searchValue: PropTypes.string,
-    recordPos: PropTypes.func,
-    getCount: PropTypes.func,
-  }
+  static contextType = ThemeContext
+
   render() {
     let kind = this.props.kind
     return (

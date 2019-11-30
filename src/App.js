@@ -6,7 +6,8 @@ import MovieDetail from './component/MovieDetail';
 import BookDetail from './component/BookDetail';
 import MusicDetail from './component/MusicDetail';
 import MainList from './component/MainList';
-import PropTypes from 'prop-types';
+import ThemeContext from './component/ThemeContext'
+
 
 class App extends Component {
   constructor() {
@@ -64,52 +65,36 @@ class App extends Component {
       count: count
     })
   }
-  static childContextTypes = {
-    movie: PropTypes.array,
-    book: PropTypes.array,
-    music: PropTypes.array,
-    searchData: PropTypes.array,
-    searchValue: PropTypes.string,
-    position: PropTypes.number,
-    count: PropTypes.number,
-    submit: PropTypes.func,
-    recordPos: PropTypes.func,
-    getValue: PropTypes.func,
-    getCount: PropTypes.func,
-    getData: PropTypes.func
-  }
-  getChildContext() {
-    return {
-      movie: this.state.movie,
-      book: this.state.book,
-      music: this.state.music,
-      searchData: this.state.searchData,
-      position: this.state.position,
-      searchValue: this.state.searchValue,
-      count: this.state.count,
-      submit: (data) => this.submit(data),
-      recordPos: (data) => this.recordPos(data),
-      getData: (count) => this.getData(count),
-      getValue: (value) => this.getValue(value),
-      getCount: (count) => this.getCount(count)
-    }
-  }
   render() {
-    console.log(this.state.searchData)
     return (
-      <Router>
-        <div className="app">
-          <Route path='/' exact render={() => (
-            <Link to='/movie' className='start'>点击开始</Link>
-          )}></Route>
-          <Route path='/movie' exact component={MainList}></Route>
-          <Route path='/music' exact component={MainList}></Route>
-          <Route path='/book' exact component={MainList}></Route>
-          <Route path='/movie/:title' component={MovieDetail}></Route>
-          <Route path='/book/:title' component={BookDetail}></Route>
-          <Route path='/music/:title' component={MusicDetail}></Route>
-        </div>
-      </Router>
+      <ThemeContext.Provider value={{
+        movie: this.state.movie,
+        book: this.state.book,
+        music: this.state.music,
+        searchData: this.state.searchData,
+        position: this.state.position,
+        searchValue: this.state.searchValue,
+        count: this.state.count,
+        submit: (data) => this.submit(data),
+        recordPos: (data) => this.recordPos(data),
+        getData: (count) => this.getData(count),
+        getValue: (value) => this.getValue(value),
+        getCount: (count) => this.getCount(count)
+      }}>
+        <Router>
+          <div className="app">
+            <Route path='/' exact render={() => (
+              <Link to='/movie' className='start'>点击开始</Link>
+            )}></Route>
+            <Route path='/movie' exact component={MainList}></Route>
+            <Route path='/music' exact component={MainList}></Route>
+            <Route path='/book' exact component={MainList}></Route>
+            <Route path='/movie/:title' component={MovieDetail}></Route>
+            <Route path='/book/:title' component={BookDetail}></Route>
+            <Route path='/music/:title' component={MusicDetail}></Route>
+          </div>
+        </Router>
+      </ThemeContext.Provider >
     );
   }
 }

@@ -6,15 +6,11 @@ import music from '../image/音乐.png';
 import movie1 from '../image/电影蓝.png';
 import book1 from '../image/我的图书 (1).png';
 import music1 from '../image/音乐 (1).png';
-import PropTypes from 'prop-types';
+import ThemeContext from './ThemeContext'
 
 
 export default class Footer extends Component {
-  static contextTypes = {
-    submit: PropTypes.func,
-    recordPos: PropTypes.func,
-    getValue: PropTypes.func,
-  }
+  static contextType = ThemeContext
   render() {
     let kind = this.props.kind;
     return (
