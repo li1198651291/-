@@ -63,14 +63,14 @@ export default class MainList extends Component {
         <Search kind={kind}></Search>
         <ul ref={this.myRef}>
           {
-            renderDate ? renderDate.map((item, index) => {
+            renderDate ? renderDate.map((item) => {
               switch (kind) {
                 case '/movie':
-                  return <MovieList dataItem={item} key={index} recordPos={() => this.recordPos()}></MovieList>
+                  return <MovieList dataItem={item} key={item.id} recordPos={() => this.recordPos()}></MovieList>
                 case '/music':
-                  return <MusicList dataItem={item} key={index} recordPos={() => this.recordPos()}></MusicList>
+                  return <MusicList dataItem={item} key={item.id} recordPos={() => this.recordPos()}></MusicList>
                 case '/book':
-                  return <BookList dataItem={item} key={index} recordPos={() => this.recordPos()}></BookList>
+                  return <BookList dataItem={item} key={item.id} recordPos={() => this.recordPos()}></BookList>
                 default:
                   return ''
               }

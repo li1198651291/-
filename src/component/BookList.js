@@ -17,12 +17,12 @@ class BookList extends Component {
           <div>
             <p className='title'>{`名称：${dataItem.title}`}</p>
             <p className='genres'>
-              {dataItem.tags ? dataItem.tags.map((item,index) => (
+              {dataItem.tags ? dataItem.tags.map((item, index) => (
                 <span key={index}>{item.name}</span>
               )) : ''}
             </p>
             <p className='casts'>
-            {dataItem.author ? dataItem.author.map((item,index) => (
+            {dataItem.author ? dataItem.author.map((item, index) => (
                 <span key={index}>{item}</span>
               )) : ''}
             </p>
