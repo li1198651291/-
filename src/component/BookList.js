@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../style/List.css';
 import { Link } from 'react-router-dom';
 
-
 class BookList extends Component {
   render() {
     let dataItem = this.props.dataItem;
@@ -22,7 +21,7 @@ class BookList extends Component {
               )) : ''}
             </p>
             <p className='casts'>
-            {dataItem.author ? dataItem.author.map((item, index) => (
+              {dataItem.author ? dataItem.author.map((item, index) => (
                 <span key={index}>{item}</span>
               )) : ''}
             </p>

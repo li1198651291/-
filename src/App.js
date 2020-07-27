@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './index.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import get from './component/fetchJsonp';
 import MovieDetail from './component/MovieDetail';
 import BookDetail from './component/BookDetail';
@@ -23,25 +23,34 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    get('https://api.douban.com/v2/movie/top250?apikey=0b2bdeda43b5688921839c8ecb20399b')
-      .then(data => this.setState({ movie: data.subjects }))
-    get('https://api.douban.com/v2/music/search?q=b&count=20&apikey=0b2bdeda43b5688921839c8ecb20399b')
-      .then(data => this.setState({ music: data.musics }))
-    get('https://api.douban.com/v2/book/search?q=a&count=20&apikey=0b2bdeda43b5688921839c8ecb20399b')
-      .then(data => this.setState({ book: data.books }))
+    get('movie', '大', this.state.count)
+      .then(data => {
+        this.setState({ movie: data.result })
+        console.log(data)
+      });
+    get('music', '大', this.state.count)
+      .then(data => {
+        this.setState({ music: data.result })
+        console.log(data)
+      });
+    get('book', '大', this.state.count)
+      .then(data => {
+        this.setState({ book: data.result })
+        console.log(data)
+      });
   }
   getData(kind) {
     if (kind === '/book') {
-      get(`https://api.douban.com/v2/book/search?q=%25${this.state.searchValue}%25&count=${this.state.count}&apikey=0b2bdeda43b5688921839c8ecb20399b`)
-        .then(data => this.submit(data.books))
+      get('book', this.state.searchValue, this.state.count)
+        .then(data => this.submit(data.result))
     }
     if (kind === '/music') {
-      get(`https://api.douban.com/v2/music/search?q=%25${this.state.searchValue}%25&count=${this.state.count}&apikey=0b2bdeda43b5688921839c8ecb20399b`)
-        .then(data => this.submit(data.musics))
+      get('book', this.state.searchValue, this.state.count)
+        .then(data => this.submit(data.result))
     }
     if (kind === '/movie') {
-      get(`https://api.douban.com/v2/movie/search?q=%25${this.state.searchValue}%25&count=${this.state.count}&apikey=0b2bdeda43b5688921839c8ecb20399b`)
-        .then(data => this.submit(data.subjects))
+      get('book', this.state.searchValue, this.state.count)
+        .then(data => this.submit(data.result))
     }
     // this.recordPos(0)
   }
@@ -81,19 +90,21 @@ class App extends Component {
         getValue: (value) => this.getValue(value),
         getCount: (count) => this.getCount(count)
       }}>
-        <Router>
-          <div className="app">
-            <Route path='/' exact render={() => (
-              <Link to='/movie' className='start'>点击开始</Link>
-            )}></Route>
-            <Route path='/movie' exact component={MainList}></Route>
-            <Route path='/music' exact component={MainList}></Route>
-            <Route path='/book' exact component={MainList}></Route>
-            <Route path='/movie/:title' component={MovieDetail}></Route>
-            <Route path='/book/:title' component={BookDetail}></Route>
-            <Route path='/music/:title' component={MusicDetail}></Route>
-          </div>
-        </Router>
+        <div className="app">
+          <Router>
+            <Switch>
+              <Route path='/' exact render={() => (
+                <Link to='/movie' className='start'>点击开始</Link>
+              )}></Route>
+              <Route path='/movie' exact component={MainList}></Route>
+              <Route path='/music' exact component={MainList}></Route>
+              <Route path='/book' exact component={MainList}></Route>
+              <Route path='/movie/:title' component={MovieDetail}></Route>
+              <Route path='/book/:title' component={BookDetail}></Route>
+              <Route path='/music/:title' component={MusicDetail}></Route>
+            </Switch>
+          </Router>
+        </div>
       </ThemeContext.Provider >
     );
   }

@@ -21,9 +21,9 @@ export default class MainList extends Component {
     ul.scrollTop = this.context.position;
     
     this.myRef.current.onscroll = () => {
-      if(this.context.searchValue === '') {
-        return
-      }
+      // if(this.context.searchValue === '') {
+      //   return
+      // }
       if (ul.scrollHeight - ul.scrollTop - ul.clientHeight === 0) {
         var count = this.context.count + 20
         this.context.recordPos(ul.scrollTop)

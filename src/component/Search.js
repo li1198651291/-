@@ -35,7 +35,7 @@ export default class Search extends Component {
           this.context.getData(kind)
           this.context.recordPos(0)
         }
-      }>搜索</button>
+        }>搜索</button>
       </div>
     )
   }
